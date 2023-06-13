@@ -25,3 +25,41 @@ class AmharicNormalizer:
             norm = re.sub(old_char, new_char, norm)
 
         return norm
+    
+    @staticmethod
+    def removePunctuation(text):
+        punctuations = ['!', '@', '#', '\\$', '%', '\\^', '&', '\\*', '\\(', '\\)', '\\[', '\\]', '\\{', '\\}', ';', ':', '\\.', ',', '<', '>', '\\?', '/', '\\|', '~', '=', '\\+', '«', '»', '“', '”', '›', '’', '‘', "'", '\\"', '፡', '።', '፤', '፥', '፦', '፧', '፨', '…','፣', '-']
+        text = re.sub(f"[{''.join(punctuations)}]", '', text)
+        return AmharicNormalizer.removeExtraSpaces(text)
+
+    @staticmethod
+    def removeNonAmharicChars(text):
+        text = re.sub('[a-zA-Z0-9]', '', text)
+        return AmharicNormalizer.removeExtraSpaces(text)
+
+    @staticmethod
+    def removeExtraSpaces(text):
+        text = re.sub('\s+', ' ', text).strip()
+        return text
+
+    @staticmethod
+    def removeStopWords(text):
+        stopwords = {
+        "ህ-ን", "እንደ", "የ", "አል", "ው", "ኡ", "በ", "ተ", "ለ", "ን", "ኦች", "ኧ", "ና", "ከ", "እን", "አንድ", "አይ", "አዎ",
+          "አቸው", "ት", "መ", "አ", "አት", "ዎች", "ም", "አስ", "ኡት", "ላ", "ይ", "ማ", "ያ", "አ", "ቶ", "እንዲ", 
+         "የሚ", "ኦ", "ይ", "እየ", "ሲ", "ብ", "ወደ", "ሌላ", "ጋር", "ኡ", "እዚህ", "አንድ", "ውስጥ", "እንድ", "እ-ል", "ን-ብ-ር", 
+         "በኩል", "ል", "እስከ", "እና", "ድ-ግ-ም", "መካከል", "ኧት", "ሊ", "አይ", "ምክንያት", "ይህ", "ኧች", "ኢት", "ዋና", "አን", 
+         "እየ", "ስለ", "ች", "ስ", "ቢ", "ብቻ", "በየ", "ባለ", "ጋራ", "ኋላ", "እነ", "አም", "ሽ", "አዊ", "ዋ", "ያለ", "ግን", "ምን", 
+         "አችን", "ወይዘሮ", "ወዲህ", "ማን", "ዘንድ", "የት", "ናቸው", "ላ", "ይሁን", "ወይም", "ታች", "እዚያ", "እጅግ", "እንጅ", "በጣም", 
+         "ወዘተ", "ጅ-ም-ር", "አሁን", "ከነ", "ተራ", "ም-ል", "ጎሽ", "አዎ", "እሽ", "ጉዳይ", "ረገድ", "ያህል", "ይልቅ", "ዳር", "እንኳ", 
+         "አዎን", "ብ-ዝ", "ጥቂት", "እኔ", "አንተ", "እርስዎ", "እሳቸው", "እሱ", "አንች", "እኛ", "እነሱ", "እናንተ", "ይኸ", "የቱ", "መቼ", 
+         "ወይዘሪት", "ትናንት", "ይኽ", "ኤል", "ኦቸ", "ኢዋ", "የለ", "ሰሞን", "ፊት", "ምንጊዜ", "አቸን", "ኧም", "አወ", "ኢያ", "ነገ", 
+         "ትላንት", "ኣት", "እንጃ", "ድ-ር-ግ", "መልክ"
+        }
+
+        cleaned_text = ' '.join(word for word in text.split() if word not in stopwords)
+
+        return AmharicNormalizer.removeExtraSpaces(cleaned_text)
+
+    
+        
