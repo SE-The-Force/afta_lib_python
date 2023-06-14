@@ -17,7 +17,7 @@ class SQLiteDatabase(IDatabase):
     def close(self):
         self.db.close()
 
-    async def create_tables(self):
+    def create_tables(self):
         cursor = self.db.cursor()
 
         cursor.execute(
@@ -185,10 +185,10 @@ class SQLiteDatabase(IDatabase):
                 (
                     field.key,
                     field.value,
-                    field.analyzed_value,
-                    int(field.is_analyzed),
-                    int(field.is_indexible),
-                    int(field.is_stored),
+                    field.analyzedValue,
+                    int(field.isAnalyzed),
+                    int(field.isIndexible),
+                    int(field.isStored),
                     document.id,
                 ),
             )
@@ -210,15 +210,14 @@ class SQLiteDatabase(IDatabase):
             document = Document(id)
             for row in rows:
                 field = Field(
+                    row[1],
                     row[2],
                     row[3],
-                    row[4],
+                    bool(row[4]),
                     bool(row[5]),
                     bool(row[6]),
-                    bool(row[7]),
                 )
                 document.add(field)
-
             return document
 
         return None
