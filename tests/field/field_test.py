@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(1, 'D:/School Stuff/5th Year - 2nd Sem/Project/afta_lib_python')
+# sys.path.insert(1, 'D:/School Stuff/5th Year - 2nd Sem/Project/afta_lib_python')
 
 import unittest
 from afta_lib_python.field.field import Field

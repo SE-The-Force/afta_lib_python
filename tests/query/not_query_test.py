@@ -1,10 +1,7 @@
-import sys
-sys.path.insert(1, 'D:/School Stuff/5th Year - 2nd Sem/Project/afta_lib_python')
-
 import asynctest
-from afta_lib_python.term.term import Term
-from afta_lib_python.query.phrase_query import PhraseQuery
-from afta_lib_python.hits.hits import Hits
+from term import Term
+from not_query import NotQuery
+from hits import Hits
 from analyzer import Analyzer
 from document import Document
 from field import Field
@@ -13,17 +10,19 @@ from indexer import Indexer
 from index_searcher import IndexSearcher
 from pdf_parser import PdfParser
 
-class TestPhraseQuery(asynctest.TestCase):
 
-    async def test_search_returns_hits_with_documents_containing_phrase_in_field(self):
+class TestNotQuery(asynctest.TestCase):
+
+    async def test_not_query(self):
         analyzer = Analyzer("http://172.17.0.2:5000/analyze")
-        db = SQLiteDatabase('phrase.db')
+        db = SQLiteDatabase('not.db')
         await db.connect()
         indexer = Indexer(analyzer, db)
         searcher = IndexSearcher(indexer, analyzer)
+        # Parse a PDF file using the PdfParser class
         pdf_parser = PdfParser("./test/pdf_parser/file4.pdf")
         parsed_data = await pdf_parser.parse()
-
+        # Create a document for each page of the PDF file
         for book_title, page_number, content in parsed_data[1:]:
             document = Document(f"{book_title}-{page_number}")
             document.add(
@@ -58,14 +57,14 @@ class TestPhraseQuery(asynctest.TestCase):
             )
             await indexer.add_document(document)
 
-        query1 = PhraseQuery(" ኢትዮጵያ ዘመን አቆጣጠር")
-        query2 = PhraseQuery(" ኢትዮጵያ አቆጣጠር")
-
+        query1 = NotQuery("ኢትዮጵያ")
+        query2 = NotQuery("ከበደ")
+        
         hits1 = await query1.search(indexer, analyzer)
         hits2 = await query2.search(indexer, analyzer)
-
-        self.assertGreater(hits1.total_hits, 0)
-        self.assertEqual(hits2.total_hits, 0)
+        
+        self.assertEqual(hits1.total_hits, 0)
+        self.assertGreater(hits2.total_hits, 0)
 
 
 if __name__ == '__main__':
