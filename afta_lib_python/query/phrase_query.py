@@ -1,6 +1,6 @@
 import sys
+from typing import Set
 sys.path.insert(1, 'D:/School Stuff/5th Year - 2nd Sem/Project/afta_lib_python')
-from sets import Set
 from afta_lib_python.query.query import Query
 from afta_lib_python.hits.hits import Hits
 

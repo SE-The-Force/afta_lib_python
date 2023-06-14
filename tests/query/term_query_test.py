@@ -28,7 +28,7 @@ class TestTermQuery(unittest.TestCase):
 
         hits = await query.search(indexer)
         
-        self.assertEqual(hits.totalHits, 2)
+        self.assertEqual(hits.total_hits, 2)
         self.assertEqual(hits.documents, [doc1, doc2])
         self.assertGreater(hits.scores[doc1["id"]], hits.scores[doc2["id"]])
         indexer["getDocument"].assert_called_with(1)
